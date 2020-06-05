@@ -15,7 +15,7 @@ function createFeatures(earthquakeData) {
     layer.bindPopup("<h3>" + feature.properties.place +
       "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
   }
-
+    
   // Create a GeoJSON layer containing the features array on the earthquakeData object
   // Run the onEachFeature function once for each piece of data in the array
   var earthquakes = L.geoJSON(earthquakeData, {
@@ -54,6 +54,13 @@ function createMap(earthquakes) {
     zoom: 5,
     layers: [lightmap, earthquakes]
   });
+
+  var circle = L.circle([51.508, -0.11], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 1,
+    radius: 500
+}).addTo(myMap);
 
   // Create a layer control
   // Pass in our baseMaps and overlayMaps
