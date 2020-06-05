@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Leaflet Step-1</title>
-
-  <!-- mapbox JS & CSS CDN -->
-  <script src='https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.js'></script>
-  <link href='https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css' rel='stylesheet' />
-  
+    
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
 
@@ -19,7 +15,7 @@
 <body>
 
   <!-- The div that holds our map -->
-  <div id='map' style='width: 400px; height: 300px;'></div>
+  <div id='map' style='width: 100%'></div>
   <script>
   mapboxgl.accessToken = 'pk.eyJ1Ijoib2duamVuc3RyYmFub3ZpYyIsImEiOiJja2F6cGpzOW0wMGd0MnBvMnZrZmg3aGowIn0.-g1MhEujFjldNinYROfSPQ';
   var map = new mapboxgl.Map({
