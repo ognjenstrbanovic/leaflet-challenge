@@ -11,20 +11,27 @@ function createFeatures(earthquakeData) {
 
   // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
-  function onEachFeature(feature, layer) {
-    layer.bindPopup("<h3>" + feature.properties.place +
+  function onEachFeature(feature) {
+    L.circle([feature.geometry.coordinates, feature.geometry.coordinates]).bindPopup("<h3>" + feature.properties.place +
       "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
   }
-    
+
   // Create a GeoJSON layer containing the features array on the earthquakeData object
   // Run the onEachFeature function once for each piece of data in the array
   var earthquakes = L.geoJSON(earthquakeData, {
+    circleLayer: function(earthquakeData, latitudeLongitude) {
+      return L.circle(latitudeLongitude, {
+        radius: circleRadius(earthquakeData.properties.mag),
+        color: circleColor(earthquakeData.properties.mag),
+        fillOpacity: 1
+      });
+    },
     onEachFeature: onEachFeature
   });
 
   // Sending our earthquakes layer to the createMap function
   createMap(earthquakes);
-}
+};
 
 function createMap(earthquakes) {
 
@@ -55,17 +62,10 @@ function createMap(earthquakes) {
     layers: [lightmap, earthquakes]
   });
 
-  var circle = L.circle([51.508, -0.11], {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 1,
-    radius: 500
-}).addTo(myMap);
-
   // Create a layer control
   // Pass in our baseMaps and overlayMaps
   // Add the layer control to the map
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
   }).addTo(myMap);
-}
+};
