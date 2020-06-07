@@ -8,6 +8,6 @@ Importing and visualizing the map was the second part. I was asked to do the fol
 - *Your data markers should reflect the magnitude of the earthquake in their size and color. Earthquakes with higher magnitudes should appear larger and darker in color.*  
 - *Include popups that provide additional information about the earthquake when a marker is clicked.*  
 - *Create a legend that will provide context for your map data.*  
-- *Your visualization should look something like the map above.*. 
+- *Your visualization should look something like the map above.*  
 Here is a snapshot of my work. 🙂  
-![picture](leaflet-challenge/Snapshot.jpg)
+![picture](Snapshot.jpg)
