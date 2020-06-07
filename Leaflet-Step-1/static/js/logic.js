@@ -89,31 +89,24 @@ function createMap(earthquakes) {
     collapsed: false
   }).addTo(myMap);
 
-  // Set up the legend
-  var legend = L.control({ position: "bottomright" });
-  legend.onAdd = function() {
-    var div = L.DomUtil.create("div", "info legend");
-    var limits = geojson.options.limits;
-    var colors = geojson.options.colors;
-    var labels = [];
 
-    // Add min & max
-    var legendInfo = "<h1>Median Income</h1>" +
-      "<div class=\"labels\">" +
-        "<div class=\"min\">" + limits[0] + "</div>" +
-        "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
-      "</div>";
+  var legend = L.control({position: 'bottomright'});
 
-    div.innerHTML = legendInfo;
-
-    limits.forEach(function(limit, index) {
-      labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
-    });
-
-    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-    return div;
+  legend.onAdd = function (map) {
+  
+      var div = L.DomUtil.create('div', 'info legend'),
+      magnitudes = [0, 1, 2, 3, 4, 5],
+          labels = [];
+  
+      // loop through our density intervals and generate a label with a colored square for each interval
+      for (var i = 0; i < magnitudes.length; i++) {
+          div.innerHTML +=
+              '<i style="background:' + circleColor(magnitudes[i] + 1) + '"></i> ' +
+              magnitudes[i] + (magnitudes[i + 1] ? '&ndash;' + magnitudes[i + 1] + '<br>' : '+');
+      }
+  
+      return div;
   };
-
-  // Adding legend to the map
-  legend.addTo(myMap);
+  
+  legend.addTo(map);
 };
