@@ -90,14 +90,14 @@ function createMap(earthquakes) {
   }).addTo(myMap);
 
   var legend = L.control({position: 'bottomright'});
-  legend.onAdd = function(map) {
-      var div = L.DomUtil.create('div', 'info legend'), magnitudes = [0, 1, 2, 3, 4, 5], labels = ["0-1", "1-2", "2-3", "3-4", "4-5", "5+"];
-      // loop through our density intervals and generate a label with a colored square for each interval
-      for (var i = 0; i < magnitudes.length; i++) {
-          div.innerHTML += '<i style="background:' + circleColor(magnitudes[i] + 1) + '"></i> ' + magnitudes[i] + (magnitudes[i + 1] ? '&ndash;' + magnitudes[i + 1] + '<br>' : '+');
-      }
-      return div;
+  legend.onAdd = function(myMap) {
+    var div = L.DomUtil.create('div', 'info legend'), magnitudes = [0, 1, 2, 3, 4, 5], labels = ["0-1", "1-2", "2-3", "3-4", "4-5", "5+"];
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < magnitudes.length; i++) {
+        div.innerHTML += '<i style="background:' + circleColor(magnitudes[i] + 1) + '"></i> ' + magnitudes[i] + (magnitudes[i + 1] ? '&ndash;' + magnitudes[i + 1] + '<br>' : '+');
+    }
+    return div;
   };
-  legend.addTo(map);
+  legend.addTo(myMap);
 
 };
