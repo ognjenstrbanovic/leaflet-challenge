@@ -10,4 +10,6 @@ Importing and visualizing the map was the second part. I was asked to do the fol
 - *Create a legend that will provide context for your map data.*  
 - *Your visualization should look something like the map above.*  
 Here is a snapshot of my work. 🙂  
+
+
 ![picture](Snapshot.jpg)
