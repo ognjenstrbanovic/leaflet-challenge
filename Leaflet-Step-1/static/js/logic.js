@@ -1,6 +1,27 @@
 // Store our API endpoint inside queryUrl - this is 'All Earthquakes from the Past 7 Days'
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
+// The circles were too small so I had to multiply by a large number so that they could be more visible on the map
+function circleRadius(magnitude) {
+  return magnitude * 10000;
+}
+
+function circleColor(magnitude) {
+  if (magnitude <= 1) {
+      return "#FFFF00";
+  } else if (magnitude <= 2) {
+      return "#FFA500";
+  } else if (magnitude <= 3) {
+      return "#FF8C00";
+  } else if (magnitude <= 4) {
+      return "#FF4500";
+  } else if (magnitude <= 5) {
+      return "#FF0000";
+  } else {
+      return "#8B0000";
+  };
+}
+
 // Perform a GET request to the query URL
 d3.json(queryUrl, function(data) {
   // Once we get a response, send the data.features object to the createFeatures function
@@ -11,24 +32,23 @@ function createFeatures(earthquakeData) {
 
   // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
-  function onEachFeature(feature) {
-    L.circle([feature.geometry.coordinates, feature.geometry.coordinates]).bindPopup("<h3>" + feature.properties.place +
-      "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
-  }
-
-  // Create a GeoJSON layer containing the features array on the earthquakeData object
-  // Run the onEachFeature function once for each piece of data in the array
   var earthquakes = L.geoJSON(earthquakeData, {
-    circleLayer: function(earthquakeData, latitudeLongitude) {
-      return L.circle(latitudeLongitude, {
-        radius: circleRadius(earthquakeData.properties.mag),
-        color: circleColor(earthquakeData.properties.mag),
-        fillOpacity: 1
-      });
-    },
-    onEachFeature: onEachFeature
+    // Define a function we want to run once for each feature in the features array
+    // Give each feature a popup describing the place and time of the earthquake
+   onEachFeature : function (feature, layer) {
+      layer.bindPopup("<h3>" + feature.properties.place +
+        "</h3><hr><p>" + new Date(feature.properties.time) + "</p>" + "<p> Magnitude: " +  feature.properties.mag + "</p>")
+      },
+      pointToLayer: function (feature, latitudeLongitude) {
+        return new L.circle(latitudeLongitude, {
+          radius: circleRadius(feature.properties.mag),
+          fillColor: circleColor(feature.properties.mag),
+          fillOpacity: 1,
+          stroke: false
+      })
+    }
   });
-
+  
   // Sending our earthquakes layer to the createMap function
   createMap(earthquakes);
 };
@@ -68,4 +88,32 @@ function createMap(earthquakes) {
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
   }).addTo(myMap);
+
+  // Set up the legend
+  var legend = L.control({ position: "bottomright" });
+  legend.onAdd = function() {
+    var div = L.DomUtil.create("div", "info legend");
+    var limits = geojson.options.limits;
+    var colors = geojson.options.colors;
+    var labels = [];
+
+    // Add min & max
+    var legendInfo = "<h1>Median Income</h1>" +
+      "<div class=\"labels\">" +
+        "<div class=\"min\">" + limits[0] + "</div>" +
+        "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
+      "</div>";
+
+    div.innerHTML = legendInfo;
+
+    limits.forEach(function(limit, index) {
+      labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+    });
+
+    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+    return div;
+  };
+
+  // Adding legend to the map
+  legend.addTo(myMap);
 };
