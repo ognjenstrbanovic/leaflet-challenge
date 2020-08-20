@@ -1,4 +1,4 @@
-# leaflet-challenge
+# leaflet-challenge 🍃
 First of all, I've finally learned during project week that it's crucial to COMMIT OFTEN, and from now on, I do so!  
 But, moving on, this HW was all about visualizing data with Leaflet.js...  
 This time around, I am invited to the United States Geological Survey.  
